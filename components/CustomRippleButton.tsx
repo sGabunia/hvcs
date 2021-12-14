@@ -36,7 +36,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  ripple: {
-    color: colors.medium,
-  },
 });

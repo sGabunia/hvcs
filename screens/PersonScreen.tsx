@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import PersonOptions from '../components/PersonOptions';
 
 import MyAppText from '../utils/text/MyAppText';
