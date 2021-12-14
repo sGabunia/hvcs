@@ -9,15 +9,16 @@ import {selectMode} from '../feautures/darkmode/darkModeSlice';
 // screens
 import HomeScreen from '../screens/HomeScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
-import PersonScreen from '../screens/PersonScreen';
 import UpdatesScreen from '../screens/UpdatesScreen';
 import CartScreen from '../screens/CartScreen';
 
 // icons
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import colors from '../utils/colors/colors';
+
 import SettingsNavigator from './SettingsNavigator';
+
+import colors from '../utils/colors/colors';
 
 export type RootTabParamList = {
   Home: undefined;

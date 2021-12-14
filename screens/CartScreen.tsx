@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import CustomMainButton from '../components/CustomMainButton';
 
 import MyAppText from '../utils/text/MyAppText';
 import Wrapper from '../utils/wrapper/Wrapper';
@@ -7,8 +8,10 @@ import Wrapper from '../utils/wrapper/Wrapper';
 const CartScreen = () => {
   return (
     <Wrapper>
-      <View>
-        <MyAppText>Cart</MyAppText>
+      <View style={{alignItems: 'center'}}>
+        <CustomMainButton onPress={() => console.log('hello')}>
+          Sign in
+        </CustomMainButton>
       </View>
     </Wrapper>
   );
