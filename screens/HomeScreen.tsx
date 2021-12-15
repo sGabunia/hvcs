@@ -1,13 +1,33 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import MyAppText from '../utils/text/MyAppText';
+
+import BeforeSignIn from '../components/BeforeSignIn';
+import SignInModal from '../components/SignInModal';
 import Wrapper from '../utils/wrapper/Wrapper';
 
 const HomeScreen = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const text =
+    'Sign in to save ypur favorites and get personalized recommendations.';
   return (
     <Wrapper>
-      <View>
-        <MyAppText>Home</MyAppText>
+      <SignInModal isOpen={isModalOpen} onPress={closeModal} />
+      <View style={styles.center}>
+        <BeforeSignIn
+          title="Welcome to Hvcs!"
+          description={text}
+          buttonTitle="Get started"
+          icon="search-outline"
+          onPress={openModal}
+        />
       </View>
     </Wrapper>
   );
@@ -15,4 +35,10 @@ const HomeScreen = () => {
 
 export default HomeScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  center: {
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

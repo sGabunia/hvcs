@@ -1,14 +1,20 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import BeforeSignIn from '../components/BeforeSignIn';
 
-import MyAppText from '../utils/text/MyAppText';
 import Wrapper from '../utils/wrapper/Wrapper';
 
 const UpdatesScreen = () => {
+  const text = 'Sign in to stay up to date on your favorite items and shops.';
   return (
     <Wrapper>
-      <View>
-        <MyAppText>Update</MyAppText>
+      <View style={styles.center}>
+        <BeforeSignIn
+          title="No updates ...yet."
+          description={text}
+          buttonTitle="Sign in"
+          icon="newspaper-outline"
+        />
       </View>
     </Wrapper>
   );
@@ -16,4 +22,10 @@ const UpdatesScreen = () => {
 
 export default UpdatesScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  center: {
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 // navigation
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -24,19 +24,19 @@ const PersonOptions = () => {
   };
   return (
     <WrapperWithElevetion>
-      <View>
-        <CustomRippleButton onPress={navigateToSettings}>
-          <MyAppText>Settings</MyAppText>
-        </CustomRippleButton>
-        <CustomRippleButton>
-          <MyAppText>Help</MyAppText>
-        </CustomRippleButton>
-        <CustomRippleButton>
-          <MyAppText>Get Sell on Hvcs</MyAppText>
-        </CustomRippleButton>
-      </View>
+      <CustomRippleButton onPress={navigateToSettings}>
+        <MyAppText>Settings</MyAppText>
+      </CustomRippleButton>
+      <CustomRippleButton>
+        <MyAppText>Help</MyAppText>
+      </CustomRippleButton>
+      <CustomRippleButton>
+        <MyAppText>Get Sell on Hvcs</MyAppText>
+      </CustomRippleButton>
     </WrapperWithElevetion>
   );
 };
 
 export default PersonOptions;
+
+const styles = StyleSheet.create({});

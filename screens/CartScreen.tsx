@@ -1,17 +1,20 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import BeforeSignIn from '../components/BeforeSignIn';
 import CustomMainButton from '../components/CustomMainButton';
 
-import MyAppText from '../utils/text/MyAppText';
 import Wrapper from '../utils/wrapper/Wrapper';
 
 const CartScreen = () => {
   return (
     <Wrapper>
-      <View style={{alignItems: 'center'}}>
-        <CustomMainButton onPress={() => console.log('hello')}>
-          Sign in
-        </CustomMainButton>
+      <View style={styles.center}>
+        <BeforeSignIn
+          title="It's empty ... for now."
+          description="Need some inspiration?"
+          buttonTitle="See trending items"
+          icon="cart-outline"
+        />
       </View>
     </Wrapper>
   );
@@ -19,4 +22,10 @@ const CartScreen = () => {
 
 export default CartScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  center: {
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

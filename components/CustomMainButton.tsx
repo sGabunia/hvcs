@@ -10,11 +10,9 @@ import {
 import {useSelector} from 'react-redux';
 import {selectMode} from '../feautures/darkmode/darkModeSlice';
 import colors from '../utils/colors/colors';
-import MyAppText from '../utils/text/MyAppText';
-
 interface Props {
   children: Element;
-  onPress: () => void;
+  onPress?: () => void;
 }
 
 const CustomMainButton = ({children, onPress}: Props) => {
@@ -22,6 +20,7 @@ const CustomMainButton = ({children, onPress}: Props) => {
   return (
     <View style={styles.buttonWraper}>
       <Pressable
+        onPress={onPress}
         android_ripple={{color: colors.medium}}
         style={{
           ...styles.button,
@@ -42,6 +41,7 @@ const styles = StyleSheet.create({
   buttonWraper: {
     overflow: 'hidden',
     borderRadius: 50,
+    alignSelf: 'center',
   },
   button: {
     padding: 14,
