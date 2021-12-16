@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 // navigation
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';

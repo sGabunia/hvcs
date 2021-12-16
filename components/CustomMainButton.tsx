@@ -1,18 +1,13 @@
 import React from 'react';
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 
 import {useSelector} from 'react-redux';
 import {selectMode} from '../feautures/darkmode/darkModeSlice';
+
 import colors from '../utils/colors/colors';
 interface Props {
   children: Element;
-  onPress?: () => void;
+  onPress: () => void;
 }
 
 const CustomMainButton = ({children, onPress}: Props) => {

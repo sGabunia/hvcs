@@ -1,20 +1,21 @@
 import React from 'react';
-import {Button, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+
 import {useSelector} from 'react-redux';
+import {selectMode} from '../feautures/darkmode/darkModeSlice';
 
 import MyAppText from '../utils/text/MyAppText';
 import CustomMainButton from './CustomMainButton';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../utils/colors/colors';
-import {selectMode} from '../feautures/darkmode/darkModeSlice';
 
 interface Props {
   title: string;
   description: string;
   buttonTitle: string;
   icon?: string;
-  onPress?: () => void;
+  onPress: () => void;
 }
 
 const BeforeSignIn = ({

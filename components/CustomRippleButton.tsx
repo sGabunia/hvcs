@@ -1,10 +1,9 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet} from 'react-native';
 
 import {useSelector} from 'react-redux';
 import {selectMode} from '../feautures/darkmode/darkModeSlice';
 
-import MyAppText from '../utils/text/MyAppText';
 import CustomSwitchButton from './CustomSwitchButton';
 
 import colors from '../utils/colors/colors';

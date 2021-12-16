@@ -13,7 +13,7 @@ const WrapperWithElevetion = ({children}: Props) => {
     <View
       style={{
         ...styles.wrapper,
-        backgroundColor: isDark ? colors.medium : colors.light,
+        backgroundColor: isDark ? colors.gray : colors.light,
       }}>
       {children}
     </View>
@@ -27,6 +27,6 @@ const styles = StyleSheet.create({
     width: '90%',
     elevation: 1,
     borderWidth: 0.2,
-    borderRadius: 4,
+    borderRadius: 7,
   },
 });

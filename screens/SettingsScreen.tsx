@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {SettingsStackParamList} from '../navigation/SettingsNavigator';
@@ -18,7 +18,6 @@ type DarkModeScreenType = NativeStackNavigationProp<
 const SettingsScreen = () => {
   const navigation = useNavigation<DarkModeScreenType>();
   const navigateToDarkModeScreen = () => {
-    console.log('adasjd');
     navigation.navigate('Dark Mode');
   };
   return (

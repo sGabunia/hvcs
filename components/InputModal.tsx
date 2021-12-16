@@ -3,15 +3,19 @@ import {
   KeyboardAvoidingView,
   Pressable,
   StyleSheet,
-  Text,
   TextInput,
   View,
 } from 'react-native';
-import colors from '../utils/colors/colors';
-import MyAppText from '../utils/text/MyAppText';
+
+import {useSelector} from 'react-redux';
+import {selectMode} from '../feautures/darkmode/darkModeSlice';
+
 import CustomMainButton from './CustomMainButton';
 import SocialNetworksButton from './SocialNetworksButton';
 import WrapperWithElevetion from './WrapperWithElevetion';
+
+import MyAppText from '../utils/text/MyAppText';
+import colors from '../utils/colors/colors';
 
 interface Props {
   title: string;
@@ -19,22 +23,54 @@ interface Props {
   password: string;
   description: string;
   type: string;
+  reffer: any;
 }
 
-const InputModal = ({title, email, password, description, type}: Props) => {
+const InputModal = ({
+  title,
+  email,
+  password,
+  description,
+  type,
+  reffer,
+}: Props) => {
+  const isDark = useSelector(selectMode);
   return (
     <WrapperWithElevetion>
       <KeyboardAvoidingView behavior="padding">
         <View style={styles.header}>
           <MyAppText>{title}</MyAppText>
         </View>
-        <View style={styles.inputWrapper}>
-          <TextInput style={styles.input} placeholder={email} />
-          <TextInput style={styles.input} placeholder={password} />
+        <View
+          style={{
+            ...styles.inputWrapper,
+            borderColor: isDark ? colors.light : colors.dark,
+          }}>
+          <TextInput
+            style={{
+              ...styles.input,
+              borderColor: isDark ? colors.light : colors.dark,
+            }}
+            placeholder={email}
+            placeholderTextColor={isDark ? colors.light : colors.dark}
+            ref={reffer}
+          />
+          <TextInput
+            style={{
+              ...styles.input,
+              borderColor: isDark ? colors.light : colors.dark,
+            }}
+            placeholder={password}
+            placeholderTextColor={isDark ? colors.light : colors.dark}
+          />
           <View style={styles.registerWrapper}>
             <MyAppText>Forgot password?</MyAppText>
-            <CustomMainButton>{type}</CustomMainButton>
+            <CustomMainButton onPress={() => console.log('register')}>
+              {type}
+            </CustomMainButton>
           </View>
+        </View>
+        <View style={styles.socialsWrapper}>
           <View>
             <SocialNetworksButton
               title="Continue with Google"
@@ -66,26 +102,35 @@ const InputModal = ({title, email, password, description, type}: Props) => {
 export default InputModal;
 
 const styles = StyleSheet.create({
+  header: {
+    paddingHorizontal: 15,
+    paddingBottom: 15,
+    paddingTop: 20,
+    borderBottomWidth: 0.3,
+  },
   inputWrapper: {
     paddingHorizontal: 15,
     marginBottom: 10,
+    borderBottomWidth: 0.3,
+    borderTopWidth: 0.3,
   },
   input: {
     height: 45,
     borderBottomWidth: 1,
     marginVertical: 7,
   },
-  header: {
-    padding: 15,
-    borderBottomWidth: 0.3,
-  },
   registerWrapper: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingVertical: 10,
+  },
+  socialsWrapper: {
+    paddingHorizontal: 15,
   },
   actionsWrapper: {
     alignItems: 'center',
+    paddingBottom: 20,
   },
   actions: {
     borderRadius: 10,
