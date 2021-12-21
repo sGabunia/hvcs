@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   KeyboardAvoidingView,
   Pressable,
   StyleSheet,
@@ -16,6 +17,7 @@ import WrapperWithElevetion from './WrapperWithElevetion';
 
 import MyAppText from '../utils/text/MyAppText';
 import colors from '../utils/colors/colors';
+import {selecLoadingStatus, selectError} from '../feautures/user/authSlice';
 
 interface Props {
   title: string;
@@ -23,7 +25,15 @@ interface Props {
   password: string;
   description: string;
   type: string;
-  reffer: any;
+  reffer?: any;
+  handleRegisterModalOpen: () => void;
+  usernameValue?: string;
+  emailValue: string;
+  passwordValue: string;
+  handleUsernameChange?: (text: any) => void;
+  handleEmailChange: (text: any) => void;
+  handlePasswordChange: (text: any) => void;
+  handleSubmit: () => void;
 }
 
 const InputModal = ({
@@ -33,8 +43,19 @@ const InputModal = ({
   description,
   type,
   reffer,
+  handleRegisterModalOpen,
+  usernameValue,
+  emailValue,
+  passwordValue,
+  handleUsernameChange,
+  handlePasswordChange,
+  handleEmailChange,
+  handleSubmit,
 }: Props) => {
   const isDark = useSelector(selectMode);
+  const isLoading = useSelector(selecLoadingStatus);
+  const error = useSelector(selectError);
+
   return (
     <WrapperWithElevetion>
       <KeyboardAvoidingView behavior="padding">
@@ -46,6 +67,19 @@ const InputModal = ({
             ...styles.inputWrapper,
             borderColor: isDark ? colors.light : colors.dark,
           }}>
+          {title === 'Register' && (
+            <TextInput
+              style={{
+                ...styles.input,
+                borderColor: isDark ? colors.light : colors.dark,
+              }}
+              placeholder="First Name"
+              placeholderTextColor={isDark ? colors.light : colors.dark}
+              value={usernameValue}
+              onChangeText={text => handleUsernameChange?.(text)}
+              ref={reffer}
+            />
+          )}
           <TextInput
             style={{
               ...styles.input,
@@ -53,6 +87,8 @@ const InputModal = ({
             }}
             placeholder={email}
             placeholderTextColor={isDark ? colors.light : colors.dark}
+            value={emailValue}
+            onChangeText={text => handleEmailChange(text)}
             ref={reffer}
           />
           <TextInput
@@ -62,13 +98,36 @@ const InputModal = ({
             }}
             placeholder={password}
             placeholderTextColor={isDark ? colors.light : colors.dark}
+            value={passwordValue}
+            onChangeText={text => handlePasswordChange(text)}
           />
-          <View style={styles.registerWrapper}>
-            <MyAppText>Forgot password?</MyAppText>
-            <CustomMainButton onPress={() => console.log('register')}>
-              {type}
-            </CustomMainButton>
-          </View>
+          {title === 'Sign in' ? (
+            <View>
+              <View style={styles.registerWrapper}>
+                <MyAppText>Forgot password?</MyAppText>
+                <CustomMainButton onPress={handleSubmit}>
+                  {title}
+                  {isLoading && <ActivityIndicator color={'#fff'} />}
+                </CustomMainButton>
+              </View>
+              {error && <MyAppText>Wrong data</MyAppText>}
+            </View>
+          ) : (
+            <View>
+              <View style={styles.registerButtonWrapper}>
+                <CustomMainButton onPress={handleSubmit}>
+                  Register
+                </CustomMainButton>
+              </View>
+
+              <MyAppText style={styles.terms}>
+                By registering, you confirm that you accept our{' '}
+                <MyAppText style={styles.terms}>
+                  Terms of Use and Privacy Policy
+                </MyAppText>
+              </MyAppText>
+            </View>
+          )}
         </View>
         <View style={styles.socialsWrapper}>
           <View>
@@ -83,6 +142,7 @@ const InputModal = ({
             <View style={styles.actionsWrapper}>
               <View style={styles.actions}>
                 <Pressable
+                  onPress={handleRegisterModalOpen}
                   style={styles.button}
                   android_ripple={{color: colors.mediumLight}}>
                   <MyAppText>
@@ -144,5 +204,13 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 10,
     paddingVertical: 5,
+  },
+  registerButtonWrapper: {
+    alignSelf: 'stretch',
+    paddingVertical: 12,
+  },
+  terms: {
+    fontSize: 12,
+    marginBottom: 10,
   },
 });

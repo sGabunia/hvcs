@@ -5,20 +5,38 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {SettingsStackParamList} from '../navigation/SettingsNavigator';
 import {useNavigation} from '@react-navigation/native';
 
+import {useSelector, useDispatch} from 'react-redux';
+import {selectIsSignedIn, signOut} from '../feautures/user/authSlice';
+
 import CustomRippleButton from '../components/CustomRippleButton';
 import WrapperWithElevetion from '../components/WrapperWithElevetion';
 import MyAppText from '../utils/text/MyAppText';
 import Wrapper from '../utils/wrapper/Wrapper';
+import CustomMainButton from '../components/CustomMainButton';
+import {RootTabParamList} from '../navigation/RootNavigator';
+import {emptyProductList} from '../feautures/products/productsSlice';
 
 type DarkModeScreenType = NativeStackNavigationProp<
   SettingsStackParamList,
   'Dark Mode'
 >;
 
+type HomeScreenType = NativeStackNavigationProp<RootTabParamList, 'Home'>;
+
 const SettingsScreen = () => {
   const navigation = useNavigation<DarkModeScreenType>();
+  const navigationHome = useNavigation<HomeScreenType>();
   const navigateToDarkModeScreen = () => {
     navigation.navigate('Dark Mode');
+  };
+
+  const dispatch = useDispatch();
+  const isSignedIn = useSelector(selectIsSignedIn);
+
+  const handleSignOut = () => {
+    dispatch(signOut());
+    dispatch(emptyProductList());
+    navigationHome.navigate('Home');
   };
   return (
     <Wrapper>
@@ -43,6 +61,9 @@ const SettingsScreen = () => {
             <MyAppText>Dark Mode</MyAppText>
           </CustomRippleButton>
         </WrapperWithElevetion>
+        {isSignedIn && (
+          <CustomMainButton onPress={handleSignOut}>Sign Out</CustomMainButton>
+        )}
       </View>
     </Wrapper>
   );

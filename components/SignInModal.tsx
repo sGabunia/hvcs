@@ -1,70 +1,74 @@
-import React, {useRef} from 'react';
-import {
-  Modal,
-  StyleSheet,
-  TextInput,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {StyleSheet, TextInput, Keyboard} from 'react-native';
 
-import {useSelector} from 'react-redux';
-import {selectMode} from '../feautures/darkmode/darkModeSlice';
+import {useSelector, useDispatch} from 'react-redux';
+import {
+  closeSignInModal,
+  openRegisterModal,
+  selectSignInModalStatus,
+} from '../feautures/modal/modalSlice';
+import {selectError, signIn} from '../feautures/user/authSlice';
 
 import InputModal from './InputModal';
-import colors from '../utils/colors/colors';
+import ModalWrapper from './ModalWrapper';
 
-interface Props {
-  isOpen: boolean;
-  onPress: () => void;
-}
-
-const SignInOrRegisterModal = ({isOpen, onPress}: Props) => {
+const SignInOrRegisterModal = () => {
+  const isSignInModalOpen = useSelector(selectSignInModalStatus);
+  const dispatch = useDispatch();
   const textInp = useRef<TextInput>();
-  const isDark = useSelector(selectMode);
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleRegisterModalOpen = () => {
+    dispatch(openRegisterModal());
+  };
+
+  const handleSignInModalClose = () => {
+    dispatch(closeSignInModal());
+  };
+
+  const handleEmailChange = (text: string) => {
+    setEmail(text);
+  };
+
+  const handlePasswordChange = (text: string) => {
+    setPassword(text);
+  };
+
+  const handleSignIn = () => {
+    if (email && password) {
+      dispatch(signIn({email, password}));
+    }
+
+    setEmail('');
+    setPassword('');
+    Keyboard.dismiss();
+  };
+
   return (
-    <Modal
-      visible={isOpen}
-      animationType="fade"
-      onShow={() => {
-        setTimeout(() => {
-          console.log('modal');
-          textInp?.current?.focus();
-        }, 100);
-      }}>
-      <TouchableWithoutFeedback onPress={onPress}>
-        <View
-          style={{
-            ...styles.modalOverlay,
-            backgroundColor: isDark ? colors.dark : colors.light,
-          }}></View>
-      </TouchableWithoutFeedback>
-      <View style={styles.center}>
-        <InputModal
-          title="Sign in"
-          email="Email or Username"
-          password="Password"
-          description="Don't have an account?"
-          type="Register"
-          reffer={textInp}
-        />
-      </View>
-    </Modal>
+    <ModalWrapper
+      isVisible={isSignInModalOpen}
+      onPress={handleSignInModalClose}
+      textInp={textInp}>
+      <InputModal
+        title="Sign in"
+        email="Email or Username"
+        password="Password"
+        description="Don't have an account?"
+        type="Register"
+        reffer={textInp}
+        handleRegisterModalOpen={handleRegisterModalOpen}
+        emailValue={email}
+        passwordValue={password}
+        handleEmailChange={handleEmailChange}
+        handlePasswordChange={handlePasswordChange}
+        handleSubmit={handleSignIn}
+      />
+    </ModalWrapper>
   );
 };
 
 export default SignInOrRegisterModal;
 
-const styles = StyleSheet.create({
-  modalOverlay: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-  },
-  center: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+const styles = StyleSheet.create({});

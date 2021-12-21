@@ -1,5 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
+
+import {useDispatch} from 'react-redux';
+import {openSignInModal} from '../feautures/modal/modalSlice';
 
 import SignInModal from '../components/SignInModal';
 import BeforeSignIn from '../components/BeforeSignIn';
@@ -7,27 +10,19 @@ import BeforeSignIn from '../components/BeforeSignIn';
 import Wrapper from '../utils/wrapper/Wrapper';
 
 const FavoritesScreen = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
+  const dispatch = useDispatch();
   const text = 'Sign in to save your favorite items, searches and shops.';
 
   return (
     <Wrapper>
-      <SignInModal isOpen={isModalOpen} onPress={closeModal} />
+      <SignInModal />
       <View style={styles.center}>
         <BeforeSignIn
           title="Nothing here ... yet."
           description={text}
           buttonTitle="Sign in"
           icon="heart-outline"
-          onPress={openModal}
+          onPress={() => dispatch(openSignInModal())}
         />
       </View>
     </Wrapper>

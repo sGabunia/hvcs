@@ -5,30 +5,32 @@ import SignInModal from '../components/SignInModal';
 import BeforeSignIn from '../components/BeforeSignIn';
 import PersonOptions from '../components/PersonOptions';
 
+import {useDispatch, useSelector} from 'react-redux';
+import {openSignInModal} from '../feautures/modal/modalSlice';
+
 import Wrapper from '../utils/wrapper/Wrapper';
+import {selectIsSignedIn} from '../feautures/user/authSlice';
 
 const PersonScreen = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const isSignedIn = useSelector(selectIsSignedIn);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
   const description =
     'Sign in to contact sellers, track your purchases and get personalized recommendations';
   return (
     <Wrapper>
-      <SignInModal isOpen={isModalOpen} onPress={closeModal} />
+      <SignInModal />
       <View style={styles.wrapper}>
-        <BeforeSignIn
-          title="Get the most out of Hvcs"
-          description={description}
-          buttonTitle="Sign in"
-          onPress={openModal}
-        />
+        {!isSignedIn && (
+          <>
+            <BeforeSignIn
+              title="Get the most out of Hvcs"
+              description={description}
+              buttonTitle="Sign in"
+              onPress={() => dispatch(openSignInModal())}
+            />
+          </>
+        )}
         <View style={{marginBottom: 30}}></View>
         <PersonOptions />
       </View>
