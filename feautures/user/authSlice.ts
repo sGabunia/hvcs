@@ -1,9 +1,5 @@
 import {RootState} from './../../app/store/store';
-import {
-  createAsyncThunk,
-  createSlice,
-  isRejectedWithValue,
-} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 interface UserProps {
@@ -17,7 +13,7 @@ interface UserSignInProps {
   password: string;
 }
 
-interface Initial {
+export interface Initial {
   token: null;
   userId: null;
   loadingStatus: boolean;
@@ -117,5 +113,6 @@ export const {signOut} = authSlice.actions;
 export const selectIsSignedIn = ({auth}: RootState) => auth.isSignedIn;
 export const selecLoadingStatus = ({auth}: RootState) => auth.loadingStatus;
 export const selectError = ({auth}: RootState) => auth.error;
+export const selectUserId = ({auth}: RootState) => auth.userId;
 
 export default authSlice.reducer;

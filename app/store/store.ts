@@ -1,5 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit';
 import darkModeSlice from '../../feautures/darkmode/darkModeSlice';
+import favoriteProductsSlice from '../../feautures/favoriteProducts/favoriteProductsSlice';
 import modalSlice from '../../feautures/modal/modalSlice';
 import productsSlice from '../../feautures/products/productsSlice';
 import authSlice from '../../feautures/user/authSlice';
@@ -10,6 +11,7 @@ const store = configureStore({
     modalsState: modalSlice,
     auth: authSlice,
     products: productsSlice,
+    favoriteProducts: favoriteProductsSlice,
   },
 });
 

@@ -6,14 +6,22 @@ import {
   Pressable,
   TouchableWithoutFeedback,
 } from 'react-native';
-import {Product} from '../feautures/products/productsSlice';
 
-import {useNavigation} from '@react-navigation/native';
+import {
+  Product,
+  removeFromFavoriteProducts,
+} from '../feautures/products/productsSlice';
+import {addToFavorites} from '../feautures/favoriteProducts/favoriteProductsSlice';
+
+import {useDispatch} from 'react-redux';
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import colors from '../utils/colors/colors';
+
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {HomeParamList} from '../navigation/RootNavigator';
+import {useNavigation} from '@react-navigation/native';
+import {HomeParamList} from '../navigation/HomeNavigator';
+
+import colors from '../utils/colors/colors';
 
 type ProductsScreenType = NativeStackNavigationProp<
   HomeParamList,
@@ -26,11 +34,18 @@ interface Props {
 
 const GalleryItem = ({product}: Props) => {
   const navigation = useNavigation<ProductsScreenType>();
+  const dispatch = useDispatch();
   const navigateToProductDetails = () => {
     navigation.navigate('Product Details', {id: product._id});
   };
 
-  console.log(product);
+  const addProductToFavorites = () => {
+    if (product.isFavorite) {
+      dispatch(removeFromFavoriteProducts(product._id));
+    } else {
+      dispatch(addToFavorites(product._id));
+    }
+  };
 
   return (
     <Pressable
@@ -44,11 +59,11 @@ const GalleryItem = ({product}: Props) => {
         overflow: 'hidden',
       }}>
       <View style={{width: '100%', height: '100%', position: 'relative'}}>
-        <TouchableWithoutFeedback onPress={() => console.log('hello')}>
+        <TouchableWithoutFeedback onPress={addProductToFavorites}>
           <MaterialIcons
-            name="favorite-outline"
+            name={product.isFavorite ? 'favorite' : 'favorite-outline'}
             size={28}
-            color={colors.light}
+            color={product.isFavorite ? 'red' : colors.light}
             style={{position: 'absolute', zIndex: 1, top: 10, right: 10}}
           />
         </TouchableWithoutFeedback>

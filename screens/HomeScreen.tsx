@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import BeforeSignIn from '../components/BeforeSignIn';
 import RegisterModal from '../components/RegisterModal';
 import SignInModal from '../components/SignInModal';
-import {closeSignInModal, openSignInModal} from '../feautures/modal/modalSlice';
+import {openSignInModal} from '../feautures/modal/modalSlice';
 
 import Wrapper from '../utils/wrapper/Wrapper';
 

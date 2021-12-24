@@ -1,5 +1,8 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 // redux store
@@ -20,12 +23,12 @@ import SettingsNavigator from './SettingsNavigator';
 
 import colors from '../utils/colors/colors';
 import {selectIsSignedIn} from '../feautures/user/authSlice';
-import SignInHomeScreen from '../screens/SignInHomeScreen';
-import SignedInFavoritesScreen from '../screens/SignedInFavoritesScreen';
+
 import SignedInUpdateScreen from '../screens/SignedInUpdateScreen';
 import SignedInCartScreen from '../screens/SignedInCartScreen';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import ProductDetailsScreen from '../screens/ProductDetailsScreen';
+
+import TopTabsNavigator from './TopTabsNavigator';
+import HomeNavigator from './HomeNavigator';
 
 export type RootTabParamList = {
   Home: undefined;
@@ -35,23 +38,7 @@ export type RootTabParamList = {
   Cart: undefined;
 };
 
-export type HomeParamList = {
-  Products: undefined;
-  'Product Details': {id: string};
-};
-
 const Tab = createBottomTabNavigator<RootTabParamList>();
-
-const Stack = createNativeStackNavigator();
-
-const HomeNavigator = () => {
-  return (
-    <Stack.Navigator initialRouteName="Products">
-      <Stack.Screen name="Products" component={SignInHomeScreen} />
-      <Stack.Screen name="Product Details" component={ProductDetailsScreen} />
-    </Stack.Navigator>
-  );
-};
 
 const RootNavigator = () => {
   const isDark = useSelector(selectMode);
@@ -163,7 +150,7 @@ const RootNavigator = () => {
             />
             <Tab.Screen
               name="Favorites"
-              component={SignedInFavoritesScreen}
+              component={TopTabsNavigator}
               options={{
                 tabBarIcon: ({focused}) => (
                   <Ionicons

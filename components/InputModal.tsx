@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Pressable,
-  StyleSheet,
-  TextInput,
-  View,
-} from 'react-native';
+import {KeyboardAvoidingView, Pressable, StyleSheet, View} from 'react-native';
+
+import {useForm} from 'react-hook-form';
 
 import {useSelector} from 'react-redux';
 import {selectMode} from '../feautures/darkmode/darkModeSlice';
@@ -17,7 +12,8 @@ import WrapperWithElevetion from './WrapperWithElevetion';
 
 import MyAppText from '../utils/text/MyAppText';
 import colors from '../utils/colors/colors';
-import {selecLoadingStatus, selectError} from '../feautures/user/authSlice';
+import {selectError} from '../feautures/user/authSlice';
+import CustomInput from './CustomInput';
 
 interface Props {
   title: string;
@@ -27,14 +23,14 @@ interface Props {
   type: string;
   reffer?: any;
   handleRegisterModalOpen: () => void;
-  usernameValue?: string;
-  emailValue: string;
-  passwordValue: string;
-  handleUsernameChange?: (text: any) => void;
-  handleEmailChange: (text: any) => void;
-  handlePasswordChange: (text: any) => void;
-  handleSubmit: () => void;
+  handleSubmitData: (data: {
+    username: string;
+    email: string;
+    password: string;
+  }) => void;
 }
+
+const EMAIL_REGEX = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const InputModal = ({
   title,
@@ -44,17 +40,19 @@ const InputModal = ({
   type,
   reffer,
   handleRegisterModalOpen,
-  usernameValue,
-  emailValue,
-  passwordValue,
-  handleUsernameChange,
-  handlePasswordChange,
-  handleEmailChange,
-  handleSubmit,
+  handleSubmitData,
 }: Props) => {
   const isDark = useSelector(selectMode);
-  const isLoading = useSelector(selecLoadingStatus);
   const error = useSelector(selectError);
+
+  const {
+    control,
+    handleSubmit,
+    formState: {errors},
+    watch,
+  } = useForm();
+
+  const pswd = watch('password');
 
   return (
     <WrapperWithElevetion>
@@ -68,46 +66,75 @@ const InputModal = ({
             borderColor: isDark ? colors.light : colors.dark,
           }}>
           {title === 'Register' && (
-            <TextInput
-              style={{
-                ...styles.input,
-                borderColor: isDark ? colors.light : colors.dark,
+            <CustomInput
+              name="username"
+              placeholder="Username"
+              rules={{
+                required: 'Username is required',
+                minLength: {
+                  value: 3,
+                  message: 'Username should be minimum 3 characters',
+                },
               }}
-              placeholder="First Name"
-              placeholderTextColor={isDark ? colors.light : colors.dark}
-              value={usernameValue}
-              onChangeText={text => handleUsernameChange?.(text)}
-              ref={reffer}
+              control={control}
             />
           )}
-          <TextInput
-            style={{
-              ...styles.input,
-              borderColor: isDark ? colors.light : colors.dark,
-            }}
+
+          <CustomInput
+            name="email"
             placeholder={email}
-            placeholderTextColor={isDark ? colors.light : colors.dark}
-            value={emailValue}
-            onChangeText={text => handleEmailChange(text)}
-            ref={reffer}
-          />
-          <TextInput
-            style={{
-              ...styles.input,
-              borderColor: isDark ? colors.light : colors.dark,
+            rules={{
+              required: 'Email or username is required',
+              minLength: {
+                value: 3,
+                message: 'Username should be minimum 3 characters',
+              },
+              pattern: {
+                value: EMAIL_REGEX,
+                message: 'Email is invalid',
+              },
             }}
-            placeholder={password}
-            placeholderTextColor={isDark ? colors.light : colors.dark}
-            value={passwordValue}
-            onChangeText={text => handlePasswordChange(text)}
+            control={control}
+            reffer={reffer}
           />
+
+          <CustomInput
+            name="password"
+            placeholder={password}
+            rules={{
+              required: 'Password is required',
+              minLength: {
+                value: 4,
+                message: 'Password must be minimum 4 characters',
+              },
+            }}
+            control={control}
+            passwordShown={true}
+          />
+
+          {title === 'Register' && (
+            <CustomInput
+              name="password repeat"
+              placeholder="Repeat Password"
+              rules={{
+                required: 'Password is required',
+                minLength: {
+                  value: 4,
+                  message: 'Password must be minimum 4 characters',
+                },
+                validate: value => value === pswd || 'Password do not match',
+              }}
+              control={control}
+              passwordShown={true}
+            />
+          )}
+
           {title === 'Sign in' ? (
             <View>
               <View style={styles.registerWrapper}>
                 <MyAppText>Forgot password?</MyAppText>
-                <CustomMainButton onPress={handleSubmit}>
+                <CustomMainButton onPress={handleSubmit(handleSubmitData)}>
                   {title}
-                  {isLoading && <ActivityIndicator color={'#fff'} />}
                 </CustomMainButton>
               </View>
               {error && <MyAppText>Wrong data</MyAppText>}
@@ -115,7 +142,7 @@ const InputModal = ({
           ) : (
             <View>
               <View style={styles.registerButtonWrapper}>
-                <CustomMainButton onPress={handleSubmit}>
+                <CustomMainButton onPress={handleSubmit(handleSubmitData)}>
                   Register
                 </CustomMainButton>
               </View>
@@ -173,11 +200,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderBottomWidth: 0.3,
     borderTopWidth: 0.3,
-  },
-  input: {
-    height: 45,
-    borderBottomWidth: 1,
-    marginVertical: 7,
   },
   registerWrapper: {
     flexDirection: 'row',

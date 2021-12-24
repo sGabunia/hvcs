@@ -17,29 +17,16 @@ const RegisterModal = () => {
   const dispatch = useDispatch();
   const isRegisterModalOpen = useSelector(selectRegisterModalStatus);
 
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleUsernameChange = (text: string) => {
-    setUsername(text);
-  };
-
-  const handleEmailChange = (text: string) => {
-    setEmail(text);
-  };
-
-  const handlePasswordChange = (text: string) => {
-    setPassword(text);
-  };
-
-  const handleregister = () => {
-    if (username && email && password) {
-      dispatch(signUp({username, email, password}));
-    }
-    setUsername('');
-    setEmail('');
-    setPassword('');
+  const handleregister = ({
+    username,
+    email,
+    password,
+  }: {
+    username: string;
+    email: string;
+    password: string;
+  }) => {
+    dispatch(signUp({username, email, password}));
     Keyboard.dismiss();
   };
   const handleCloseBothModals = () => {
@@ -62,13 +49,7 @@ const RegisterModal = () => {
         description="Have an account?"
         type="Sign in"
         handleRegisterModalOpen={backToSignInModal}
-        usernameValue={username}
-        emailValue={email}
-        passwordValue={password}
-        handleUsernameChange={handleUsernameChange}
-        handleEmailChange={handleEmailChange}
-        handlePasswordChange={handlePasswordChange}
-        handleSubmit={handleregister}
+        handleSubmitData={handleregister}
       />
     </ModalWrapper>
   );

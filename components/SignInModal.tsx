@@ -17,9 +17,6 @@ const SignInOrRegisterModal = () => {
   const dispatch = useDispatch();
   const textInp = useRef<TextInput>();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   const handleRegisterModalOpen = () => {
     dispatch(openRegisterModal());
   };
@@ -28,21 +25,14 @@ const SignInOrRegisterModal = () => {
     dispatch(closeSignInModal());
   };
 
-  const handleEmailChange = (text: string) => {
-    setEmail(text);
-  };
-
-  const handlePasswordChange = (text: string) => {
-    setPassword(text);
-  };
-
-  const handleSignIn = () => {
-    if (email && password) {
-      dispatch(signIn({email, password}));
-    }
-
-    setEmail('');
-    setPassword('');
+  const handleSignIn = ({
+    email,
+    password,
+  }: {
+    email: string;
+    password: string;
+  }) => {
+    dispatch(signIn({email, password}));
     Keyboard.dismiss();
   };
 
@@ -59,11 +49,7 @@ const SignInOrRegisterModal = () => {
         type="Register"
         reffer={textInp}
         handleRegisterModalOpen={handleRegisterModalOpen}
-        emailValue={email}
-        passwordValue={password}
-        handleEmailChange={handleEmailChange}
-        handlePasswordChange={handlePasswordChange}
-        handleSubmit={handleSignIn}
+        handleSubmitData={handleSignIn}
       />
     </ModalWrapper>
   );
