@@ -1,5 +1,6 @@
 import React from 'react';
 import {ImageBackground, ScrollView, StyleSheet, View} from 'react-native';
+import {useTheme} from '@react-navigation/native';
 
 import {useSelector} from 'react-redux';
 
@@ -11,8 +12,7 @@ import Wrapper from '../utils/wrapper/Wrapper';
 import MyAppText from '../utils/text/MyAppText';
 
 import IonIcons from 'react-native-vector-icons/Ionicons';
-import {selectMode} from '../feautures/darkmode/darkModeSlice';
-import colors from '../utils/colors/colors';
+
 import CustomMainButton from '../components/CustomMainButton';
 
 type Props = NativeStackScreenProps<HomeParamList, 'Product Details'>;
@@ -20,7 +20,8 @@ type Props = NativeStackScreenProps<HomeParamList, 'Product Details'>;
 const ProductDetailsScreen = ({route}: Props) => {
   const {id} = route.params;
   const product = useSelector(selectSingleProduct(id));
-  const isDark = useSelector(selectMode);
+
+  const {colors} = useTheme();
 
   return (
     <Wrapper>
@@ -55,11 +56,7 @@ const ProductDetailsScreen = ({route}: Props) => {
             {product!.ammount > 0 ? (
               <>
                 <View style={styles.stock}>
-                  <IonIcons
-                    name="checkmark"
-                    size={20}
-                    color={isDark ? colors.light : colors.dark}
-                  />
+                  <IonIcons name="checkmark" size={20} color={colors.text} />
                   <MyAppText style={styles.bold}>In Stock</MyAppText>
                 </View>
                 <MyAppText
