@@ -13,7 +13,7 @@ import WrapperWithElevetion from '../components/WrapperWithElevetion';
 import MyAppText from '../utils/text/MyAppText';
 import Wrapper from '../utils/wrapper/Wrapper';
 import CustomMainButton from '../components/CustomMainButton';
-import {RootTabParamList} from '../navigation/RootNavigator';
+import {RootTabParamList} from '../navigation/BottomTabsNavigator';
 import {emptyProductList} from '../feautures/products/productsSlice';
 
 type DarkModeScreenType = NativeStackNavigationProp<

@@ -70,7 +70,7 @@ const GalleryItem = ({product}: Props) => {
 
         <Image
           source={{
-            uri: `data:image/jpeg;base64,${product.primaryImage}`,
+            uri: `data:image/jpeg;base64,${product.imageId.primaryImage}`,
           }}
           style={{width: '100%', height: '100%'}}
           resizeMode="cover"

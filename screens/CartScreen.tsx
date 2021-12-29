@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootTabParamList} from '../navigation/RootNavigator';
+import {RootTabParamList} from '../navigation/BottomTabsNavigator';
 
 import BeforeSignIn from '../components/BeforeSignIn';
 import Wrapper from '../utils/wrapper/Wrapper';

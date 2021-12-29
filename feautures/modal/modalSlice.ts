@@ -18,6 +18,7 @@ const modalSlice = createSlice({
     },
     openRegisterModal: state => {
       state.isRegisterModalOpen = true;
+      state.isSignInModalOpen = false;
     },
     closeRegisterModal: state => {
       state.isRegisterModalOpen = false;

@@ -1,10 +1,10 @@
 import React from 'react';
-import {KeyboardAvoidingView, Pressable, StyleSheet, View} from 'react-native';
+import {Pressable, StyleSheet, View, Platform} from 'react-native';
+import {useTheme} from '@react-navigation/native';
 
 import {useForm} from 'react-hook-form';
 
 import {useSelector} from 'react-redux';
-import {selectMode} from '../feautures/darkmode/darkModeSlice';
 
 import CustomMainButton from './CustomMainButton';
 import SocialNetworksButton from './SocialNetworksButton';
@@ -42,7 +42,7 @@ const InputModal = ({
   handleRegisterModalOpen,
   handleSubmitData,
 }: Props) => {
-  const isDark = useSelector(selectMode);
+  const {colors} = useTheme();
   const error = useSelector(selectError);
 
   const {
@@ -56,132 +56,129 @@ const InputModal = ({
 
   return (
     <WrapperWithElevetion>
-      <KeyboardAvoidingView behavior="padding">
-        <View style={styles.header}>
-          <MyAppText>{title}</MyAppText>
-        </View>
-        <View
-          style={{
-            ...styles.inputWrapper,
-            borderColor: isDark ? colors.light : colors.dark,
-          }}>
-          {title === 'Register' && (
-            <CustomInput
-              name="username"
-              placeholder="Username"
-              rules={{
-                required: 'Username is required',
-                minLength: {
-                  value: 3,
-                  message: 'Username should be minimum 3 characters',
-                },
-              }}
-              control={control}
-            />
-          )}
-
+      <View style={styles.header}>
+        <MyAppText>{title}</MyAppText>
+      </View>
+      <View
+        style={{
+          ...styles.inputWrapper,
+          borderColor: colors.border,
+        }}>
+        {title === 'Register' && (
           <CustomInput
-            name="email"
-            placeholder={email}
+            name="username"
+            placeholder="Username"
             rules={{
-              required: 'Email or username is required',
+              required: 'Username is required',
               minLength: {
                 value: 3,
                 message: 'Username should be minimum 3 characters',
               },
-              pattern: {
-                value: EMAIL_REGEX,
-                message: 'Email is invalid',
-              },
             }}
             control={control}
-            reffer={reffer}
           />
+        )}
 
+        <CustomInput
+          name="email"
+          placeholder={email}
+          rules={{
+            required: 'Email or username is required',
+            minLength: {
+              value: 3,
+              message: 'Username should be minimum 3 characters',
+            },
+            pattern: {
+              value: EMAIL_REGEX,
+              message: 'Email is invalid',
+            },
+          }}
+          control={control}
+          reffer={reffer}
+        />
+
+        <CustomInput
+          name="password"
+          placeholder={password}
+          rules={{
+            required: 'Password is required',
+            minLength: {
+              value: 4,
+              message: 'Password must be minimum 4 characters',
+            },
+          }}
+          control={control}
+          passwordShown={true}
+        />
+
+        {title === 'Register' && (
           <CustomInput
-            name="password"
-            placeholder={password}
+            name="password repeat"
+            placeholder="Repeat Password"
             rules={{
               required: 'Password is required',
               minLength: {
                 value: 4,
                 message: 'Password must be minimum 4 characters',
               },
+              validate: value => value === pswd || 'Password do not match',
             }}
             control={control}
             passwordShown={true}
           />
+        )}
 
-          {title === 'Register' && (
-            <CustomInput
-              name="password repeat"
-              placeholder="Repeat Password"
-              rules={{
-                required: 'Password is required',
-                minLength: {
-                  value: 4,
-                  message: 'Password must be minimum 4 characters',
-                },
-                validate: value => value === pswd || 'Password do not match',
-              }}
-              control={control}
-              passwordShown={true}
-            />
-          )}
-
-          {title === 'Sign in' ? (
-            <View>
-              <View style={styles.registerWrapper}>
-                <MyAppText>Forgot password?</MyAppText>
-                <CustomMainButton onPress={handleSubmit(handleSubmitData)}>
-                  {title}
-                </CustomMainButton>
-              </View>
-              {error && <MyAppText>Wrong data</MyAppText>}
-            </View>
-          ) : (
-            <View>
-              <View style={styles.registerButtonWrapper}>
-                <CustomMainButton onPress={handleSubmit(handleSubmitData)}>
-                  Register
-                </CustomMainButton>
-              </View>
-
-              <MyAppText style={styles.terms}>
-                By registering, you confirm that you accept our{' '}
-                <MyAppText style={styles.terms}>
-                  Terms of Use and Privacy Policy
-                </MyAppText>
-              </MyAppText>
-            </View>
-          )}
-        </View>
-        <View style={styles.socialsWrapper}>
+        {title === 'Sign in' ? (
           <View>
-            <SocialNetworksButton
-              title="Continue with Google"
-              icon="logo-google"
-            />
-            <SocialNetworksButton
-              title="Continue with Facebook"
-              icon="logo-facebook"
-            />
-            <View style={styles.actionsWrapper}>
-              <View style={styles.actions}>
-                <Pressable
-                  onPress={handleRegisterModalOpen}
-                  style={styles.button}
-                  android_ripple={{color: colors.mediumLight}}>
-                  <MyAppText>
-                    {description}{' '}
-                    <MyAppText style={styles.type}>{type}</MyAppText>
-                  </MyAppText>
-                </Pressable>
-              </View>
+            <View style={styles.registerWrapper}>
+              <MyAppText>Forgot password?</MyAppText>
+              <CustomMainButton onPress={handleSubmit(handleSubmitData)}>
+                {title}
+              </CustomMainButton>
+            </View>
+            {error && <MyAppText>Wrong data</MyAppText>}
+          </View>
+        ) : (
+          <View>
+            <View style={styles.registerButtonWrapper}>
+              <CustomMainButton onPress={handleSubmit(handleSubmitData)}>
+                Register
+              </CustomMainButton>
+            </View>
+
+            <MyAppText style={styles.terms}>
+              By registering, you confirm that you accept our{' '}
+              <MyAppText style={styles.terms}>
+                Terms of Use and Privacy Policy
+              </MyAppText>
+            </MyAppText>
+          </View>
+        )}
+      </View>
+      <View style={styles.socialsWrapper}>
+        <View>
+          <SocialNetworksButton
+            title="Continue with Google"
+            icon="logo-google"
+          />
+          <SocialNetworksButton
+            title="Continue with Facebook"
+            icon="logo-facebook"
+          />
+          <View style={styles.actionsWrapper}>
+            <View style={styles.actions}>
+              <Pressable
+                onPress={handleRegisterModalOpen}
+                style={styles.button}>
+                <MyAppText>
+                  {description}{' '}
+                  <MyAppText style={styles.type}>{type}</MyAppText>
+                </MyAppText>
+              </Pressable>
             </View>
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </View>
     </WrapperWithElevetion>
   );
 };

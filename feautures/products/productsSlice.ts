@@ -6,7 +6,9 @@ export interface Product {
   userId: string;
   title: string;
   description: string;
-  primaryImage: string;
+  imageId: {
+    primaryImage?: string;
+  };
   imageList: string[];
   price: number;
   ammount: number;

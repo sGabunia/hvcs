@@ -1,10 +1,12 @@
 
-POST https://teamwork-ecommerce.herokuapp.com/product/favorite
+GET  https://teamwork-ecommerce.herokuapp.com/product
+
+
 content-type: application/json
 
-{
- "userId": "61c2d8ac79089ae7cced172a"
-}
+# {
+#  "userId": "61cacd688f4b61794ad8fb83"
+# }
 
 # {
 #  "userId": "61c1bc3a3a6ea5c0f5dc0ea7",

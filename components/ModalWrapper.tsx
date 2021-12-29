@@ -5,12 +5,11 @@ import {
   View,
   Modal,
   TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 
-import {useSelector} from 'react-redux';
-import {selectMode} from '../feautures/darkmode/darkModeSlice';
-
-import colors from '../utils/colors/colors';
+import {useTheme} from '@react-navigation/native';
 
 interface Props {
   children: Element;
@@ -20,7 +19,7 @@ interface Props {
 }
 
 const ModalWrapper = ({isVisible, children, onPress, textInp}: Props) => {
-  const isDark = useSelector(selectMode);
+  const {colors} = useTheme();
   return (
     <Modal
       visible={isVisible}
@@ -31,13 +30,15 @@ const ModalWrapper = ({isVisible, children, onPress, textInp}: Props) => {
         }, 100);
       }}>
       <TouchableWithoutFeedback onPress={onPress}>
-        <View
+        <KeyboardAvoidingView
+          behavior="padding"
           style={{
             ...styles.modalOverlay,
-            backgroundColor: isDark ? colors.dark : colors.light,
-          }}></View>
+            backgroundColor: colors.background,
+          }}>
+          <View style={styles.center}>{children}</View>
+        </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
-      <View style={styles.center}>{children}</View>
     </Modal>
   );
 };
@@ -51,10 +52,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    zIndex: 1,
+    backgroundColor: '#000',
   },
   center: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
   },
 });

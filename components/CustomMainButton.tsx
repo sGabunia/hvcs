@@ -1,28 +1,28 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
-
-import {useSelector} from 'react-redux';
-import {selectMode} from '../feautures/darkmode/darkModeSlice';
+import {Pressable, StyleSheet, Text, View, ViewStyle} from 'react-native';
 
 import colors from '../utils/colors/colors';
+
+import {useTheme} from '@react-navigation/native';
 interface Props {
   children: Element;
   onPress: () => void;
+  style?: ViewStyle;
 }
 
-const CustomMainButton = ({children, onPress}: Props) => {
-  const isDark = useSelector(selectMode);
+const CustomMainButton = ({children, onPress, style}: Props) => {
+  const {colors} = useTheme();
+
   return (
     <View style={styles.buttonWraper}>
       <Pressable
         onPress={onPress}
-        android_ripple={{color: colors.medium}}
         style={{
           ...styles.button,
-          backgroundColor: isDark ? colors.light : colors.dark,
+          backgroundColor: colors.text,
+          ...style,
         }}>
-        <Text
-          style={{...styles.text, color: isDark ? colors.dark : colors.light}}>
+        <Text style={{...styles.text, color: colors.background}}>
           {children}
         </Text>
       </Pressable>
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   buttonWraper: {
     overflow: 'hidden',
     borderRadius: 50,
-    alignSelf: 'center',
+    marginBottom: 15,
   },
   button: {
     padding: 14,

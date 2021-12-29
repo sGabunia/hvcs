@@ -14,7 +14,6 @@ import MyAppText from '../utils/text/MyAppText';
 import Wrapper from '../utils/wrapper/Wrapper';
 
 const SignedInFavoritesScreen = () => {
-  const userId = useSelector(selectUserId);
   const favoriteProducts = useSelector(selectFavoriteProducts);
   const favoritesStatus = useSelector(selectFavoriteProductsStatus);
   const favoritesError = useSelector(selectFavoriteProductsError);

@@ -1,13 +1,10 @@
 import React from 'react';
-import {StyleSheet, TextInput} from 'react-native';
+import {StyleSheet, TextInput, Platform} from 'react-native';
 import {Controller} from 'react-hook-form';
-
-import {useSelector} from 'react-redux';
 
 import MyAppText from '../utils/text/MyAppText';
 
-import colors from '../utils/colors/colors';
-import {selectMode} from '../feautures/darkmode/darkModeSlice';
+import {useTheme} from '@react-navigation/native';
 
 interface Props {
   name: string;
@@ -31,7 +28,7 @@ const CustomInput = ({
   reffer,
   passwordShown,
 }: Props) => {
-  const isDark = useSelector(selectMode);
+  const {colors} = useTheme();
   return (
     <Controller
       control={control}
@@ -42,11 +39,13 @@ const CustomInput = ({
           <TextInput
             style={{
               ...styles.input,
-              borderColor: error ? 'red' : colors.dark,
+              color: colors.text,
+              borderColor: error ? 'red' : colors.text,
             }}
+            keyboardType={Platform.OS === 'ios' ? 'ascii-capable' : 'default'}
             secureTextEntry={passwordShown}
             placeholder={placeholder}
-            placeholderTextColor={isDark ? colors.light : colors.dark}
+            placeholderTextColor={colors.text}
             value={value}
             onChangeText={onChange}
             ref={reffer}

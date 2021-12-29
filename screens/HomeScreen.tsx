@@ -1,3 +1,4 @@
+import {useTheme} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 
@@ -13,6 +14,8 @@ import Wrapper from '../utils/wrapper/Wrapper';
 const HomeScreen = () => {
   const dispatch = useDispatch();
 
+  const {colors} = useTheme();
+
   const handleSignInModalOpen = () => {
     dispatch(openSignInModal());
   };
@@ -22,7 +25,9 @@ const HomeScreen = () => {
   return (
     <Wrapper>
       <SignInModal />
+
       <RegisterModal />
+
       <View style={styles.center}>
         <BeforeSignIn
           title="Welcome to Hvcs!"

@@ -56,5 +56,3 @@ const SignInOrRegisterModal = () => {
 };
 
 export default SignInOrRegisterModal;
-
-const styles = StyleSheet.create({});

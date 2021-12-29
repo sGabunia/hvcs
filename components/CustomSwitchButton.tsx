@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import {useTheme} from '@react-navigation/native';
 
 import {useSelector} from 'react-redux';
 import {selectMode} from '../feautures/darkmode/darkModeSlice';
-import colors from '../utils/colors/colors';
 
 type Props = {
   hasIcon: 'on' | 'off';
@@ -11,15 +11,16 @@ type Props = {
 
 const CustomSwitchButton = ({hasIcon}: Props) => {
   const isDark = useSelector(selectMode);
+  const {colors} = useTheme();
 
-  if (isDark) {
+  if (isDark === 'dark') {
     return (
       <View
         style={{
           ...styles.circle,
-          ...styles.dark,
+          backgroundColor: colors.background,
           borderWidth: hasIcon === 'off' ? 1 : 8,
-          borderColor: colors.light,
+          borderColor: colors.text,
         }}></View>
     );
   }
@@ -27,7 +28,7 @@ const CustomSwitchButton = ({hasIcon}: Props) => {
     <View
       style={{
         ...styles.circle,
-        ...styles.light,
+        backgroundColor: colors.background,
         borderWidth: hasIcon === 'off' ? 8 : 1,
       }}></View>
   );
@@ -42,12 +43,5 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-
-  light: {
-    backgroundColor: colors.light,
-  },
-  dark: {
-    backgroundColor: colors.dark,
   },
 });

@@ -1,22 +1,20 @@
 import React from 'react';
 import {StyleSheet, Text, TextStyle} from 'react-native';
 
-import {useSelector} from 'react-redux';
-import {selectMode} from '../../feautures/darkmode/darkModeSlice';
+import {useTheme} from '@react-navigation/native';
 interface Props {
-  children: Element;
+  children: Element | undefined;
   style?: TextStyle;
 }
 
-import colors from '../colors/colors';
-
 const MyAppText: React.FC<Props> = ({children, style}) => {
-  const isDark = useSelector(selectMode);
+  const {colors} = useTheme();
+
   return (
     <Text
       style={{
         ...styles.text,
-        color: isDark ? colors.light : colors.dark,
+        color: colors.text,
         ...style,
       }}>
       {children}
@@ -27,11 +25,5 @@ const MyAppText: React.FC<Props> = ({children, style}) => {
 export default MyAppText;
 
 const styles = StyleSheet.create({
-  text: {fontSize: 16},
-  light: {
-    color: colors.light,
-  },
-  dark: {
-    color: colors.dark,
-  },
+  text: {fontSize: 16, marginBottom: 4},
 });

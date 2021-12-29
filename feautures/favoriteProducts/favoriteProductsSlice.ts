@@ -22,9 +22,8 @@ export const fetchFavoriteProducts = createAsyncThunk(
       auth: {userId},
     } = getState() as {auth: {userId: string}};
 
-    const response = await axios.post(
-      'https://teamwork-ecommerce.herokuapp.com/product/favorite',
-      {userId},
+    const response = await axios.get(
+      `https://teamwork-ecommerce.herokuapp.com/product/favorite?userId=${userId}`,
     );
 
     return response.data;

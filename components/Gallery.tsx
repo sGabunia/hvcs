@@ -1,8 +1,19 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, View} from 'react-native';
+
+import {useNavigation} from '@react-navigation/native';
+
 import {Product} from '../feautures/products/productsSlice';
 import MyAppText from '../utils/text/MyAppText';
 import GalleryItem from './GalleryItem';
+
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {HomeParamList} from '../navigation/HomeNavigator';
+
+type CategoriesScreenNavigationProp = NativeStackNavigationProp<
+  HomeParamList,
+  'Categories'
+>;
 
 interface Props {
   title: string;
@@ -10,9 +21,16 @@ interface Props {
 }
 
 const Gallery = ({title, products}: Props) => {
+  const navigation = useNavigation<CategoriesScreenNavigationProp>();
+
+  const navigateToCategoriesGallery = () => {
+    navigation.navigate('Categories');
+  };
   return (
     <View style={styles.wrapper}>
-      <MyAppText style={styles.title}>{title}</MyAppText>
+      <Pressable onPress={navigateToCategoriesGallery}>
+        <MyAppText style={styles.title}>{title}</MyAppText>
+      </Pressable>
       <View
         style={{
           flexDirection: 'row',

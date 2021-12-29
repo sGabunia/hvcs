@@ -34,5 +34,3 @@ const DarkModeScreen = () => {
 };
 
 export default DarkModeScreen;
-
-const styles = StyleSheet.create({});
