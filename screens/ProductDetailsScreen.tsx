@@ -28,7 +28,7 @@ const ProductDetailsScreen = ({route}: Props) => {
         <View>
           <ImageBackground
             source={{
-              uri: `data:image/jpeg;base64,${product?.primaryImage}`,
+              uri: `data:image/jpeg;base64,${product?.imageId.primaryImage}`,
             }}
             style={styles.bgImage}
           />
