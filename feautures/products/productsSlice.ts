@@ -35,7 +35,7 @@ export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async () => {
     const response = await axios.get(
-      `https://teamwork-ecommerce.herokuapp.com/product`,
+      `https://teamwork-ecommerce.herokuapp.com/product?limit=6`,
     );
     return response.data;
   },
@@ -59,6 +59,7 @@ const productsSlice = createSlice({
       }
     },
     removeFromFavoriteProducts: (state, action: PayloadAction<string>) => {
+      console.log('delete');
       const id = action.payload;
       const existingProduct = state.products.find(
         product => product._id === id,

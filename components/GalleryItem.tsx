@@ -7,11 +7,11 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
+import {Product} from '../feautures/products/productsSlice';
 import {
-  Product,
-  removeFromFavoriteProducts,
-} from '../feautures/products/productsSlice';
-import {addToFavorites} from '../feautures/favoriteProducts/favoriteProductsSlice';
+  addToFavorites,
+  removeFromFavorites,
+} from '../feautures/favoriteProducts/favoriteProductsSlice';
 
 import {useDispatch} from 'react-redux';
 
@@ -41,7 +41,7 @@ const GalleryItem = ({product}: Props) => {
 
   const addProductToFavorites = () => {
     if (product.isFavorite) {
-      dispatch(removeFromFavoriteProducts(product._id));
+      dispatch(removeFromFavorites(product._id));
     } else {
       dispatch(addToFavorites(product._id));
     }

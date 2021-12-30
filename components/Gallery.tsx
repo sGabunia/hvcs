@@ -16,8 +16,9 @@ type CategoriesScreenNavigationProp = NativeStackNavigationProp<
 >;
 
 interface Props {
-  title: string;
+  title?: string;
   products: Product[];
+  onRefresh?: () => void;
 }
 
 const Gallery = ({title, products}: Props) => {
@@ -28,9 +29,11 @@ const Gallery = ({title, products}: Props) => {
   };
   return (
     <View style={styles.wrapper}>
-      <Pressable onPress={navigateToCategoriesGallery}>
-        <MyAppText style={styles.title}>{title}</MyAppText>
-      </Pressable>
+      {title && (
+        <Pressable onPress={navigateToCategoriesGallery}>
+          <MyAppText style={styles.title}>{title}</MyAppText>
+        </Pressable>
+      )}
       <View
         style={{
           flexDirection: 'row',

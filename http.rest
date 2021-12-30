@@ -1,19 +1,15 @@
 
-GET  https://teamwork-ecommerce.herokuapp.com/product
 
-
+@usertoken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxY2MwMDM5NDdhNGM3ODZlZWY4ODdlMSIsImlhdCI6MTY0MDg0MzA2MywiZXhwIjoxNjQwOTI5NDYzfQ.CqnWQ0MjYrwnIunkgnlPG7URNduB8W-DG4YhsspUd64
+POST  https://teamwork-ecommerce.herokuapp.com/product/favorite/add
 content-type: application/json
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxY2Q1NTcxZGZlZDI2ODBhNDA1MzhhNyIsImlhdCI6MTY0MDg0NjcyMiwiZXhwIjoxNjQwOTMzMTIyfQ.BFQq9AvGO9WPiQ1IHm1rNUmlG3pTRf_DdyQ9iDRvkYA
 
-# {
-#  "userId": "61cacd688f4b61794ad8fb83"
-# }
-
-# {
-#  "userId": "61c1bc3a3a6ea5c0f5dc0ea7",
-#  "title": "Farm Table",
-#  "description": "Thick-wrapped farm table stained in beautiful espresso",
-#  "price": 970.00,
-#  "ammount": 7,
-#  "rating": 4.8,
-#  "category": "Furniture"
-# }
+{
+ "title": "Amethyst Bracelet",
+ "description": "Purple Bracelet For Women",
+ "price": 25.20,
+ "ammount": 60,
+ "rating": 4.6,
+ "category": "Handmade"
+}

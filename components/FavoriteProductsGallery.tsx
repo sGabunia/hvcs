@@ -1,11 +1,26 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
+import {Product} from '../feautures/products/productsSlice';
+import GalleryItem from './GalleryItem';
 
-const FavoriteProductsGallery = () => {
+interface Props {
+  products: Product[];
+  onRefresh: () => void;
+  status: 'idle' | 'succeeded' | 'pending';
+}
+
+const FavoriteProductsGallery = ({products, onRefresh, status}: Props) => {
+  const renderFavoriteProducts = ({item}: {item: Product}) => {
+    return <GalleryItem product={item} />;
+  };
   return (
-    <View>
-      <Text>gallery</Text>
-    </View>
+    <FlatList
+      data={products}
+      renderItem={renderFavoriteProducts}
+      numColumns={2}
+      onRefresh={onRefresh}
+      refreshing={status === 'pending'}
+    />
   );
 };
 

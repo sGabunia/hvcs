@@ -1,7 +1,11 @@
 import {RootState} from './../../app/store/store';
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
-import {addToFavoriteProducts, Product} from '../products/productsSlice';
+import {
+  addToFavoriteProducts,
+  Product,
+  removeFromFavoriteProducts,
+} from '../products/productsSlice';
 
 interface InitialStateType {
   favoriteProducts: Product[];
@@ -19,11 +23,16 @@ export const fetchFavoriteProducts = createAsyncThunk(
   'favorites/fetchFavoriteProducts',
   async (_, {getState, dispatch}) => {
     const {
-      auth: {userId},
-    } = getState() as {auth: {userId: string}};
+      auth: {token},
+    } = getState() as {auth: {token: string}};
 
     const response = await axios.get(
-      `https://teamwork-ecommerce.herokuapp.com/product/favorite?userId=${userId}`,
+      `https://teamwork-ecommerce.herokuapp.com/product/favorite`,
+      {
+        headers: {
+          token: token,
+        },
+      },
     );
 
     return response.data;
@@ -34,16 +43,44 @@ export const addToFavorites = createAsyncThunk(
   'favorites/addToFavorites',
   async (postId: string, {getState, dispatch}) => {
     dispatch(addToFavoriteProducts(postId));
+
     const {
-      auth: {userId},
-    } = getState() as {auth: {userId: string}};
+      auth: {token},
+    } = getState() as {auth: {token: string}};
 
     const response = await axios.post(
       'https://teamwork-ecommerce.herokuapp.com/product/favorite/add',
-      {userId, postId},
+      {postId},
+      {
+        headers: {
+          token,
+        },
+      },
     );
 
-    console.log(response);
+    return postId;
+  },
+);
+
+export const removeFromFavorites = createAsyncThunk(
+  'favorites/removeFromFavorites',
+  async (postId: string, {getState, dispatch}) => {
+    dispatch(removeFromFavoriteProducts(postId));
+
+    const {
+      auth: {token},
+    } = getState() as {auth: {token: string}};
+
+    const response = await axios.delete(
+      `https://teamwork-ecommerce.herokuapp.com/product/deletefav?postId=${postId}`,
+      {
+        headers: {
+          token,
+        },
+      },
+    );
+
+    return postId;
   },
 );
 
@@ -57,17 +94,37 @@ const favoriteProductsSlice = createSlice({
         state.status = 'pending';
       })
       .addCase(fetchFavoriteProducts.fulfilled, (state, action) => {
-        const {favorite} = action.payload;
-        const newArr = favorite.map((item: {productId: Product}) => ({
-          ...item.productId,
+        const {favoritePosts} = action.payload.favorite;
+
+        const newArr = favoritePosts.map((item: Product) => ({
+          ...item,
           isFavorite: true,
         }));
+
         state.status = 'succeeded';
-        state.favoriteProducts = [...state.favoriteProducts, ...newArr];
+        state.favoriteProducts = newArr;
       })
       .addCase(fetchFavoriteProducts.rejected, state => {
         state.status = 'failed';
         state.error = 'Network Error';
+      })
+      .addCase(addToFavorites.fulfilled, (state, action) => {
+        const id = action.payload;
+        const existingProduct = state.favoriteProducts.find(
+          product => product._id === id,
+        );
+        if (existingProduct) {
+          existingProduct.isFavorite = true;
+        }
+      })
+      .addCase(removeFromFavorites.fulfilled, (state, action) => {
+        const id = action.payload;
+        const existingProduct = state.favoriteProducts.find(
+          product => product._id === id,
+        );
+        if (existingProduct) {
+          existingProduct.isFavorite = false;
+        }
       });
   },
 });

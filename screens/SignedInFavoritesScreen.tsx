@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
-import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import FavoriteProductsGallery from '../components/FavoriteProductsGallery';
+import Gallery from '../components/Gallery';
 import {
   fetchFavoriteProducts,
   selectFavoriteProductsError,
@@ -13,15 +14,19 @@ import {selectUserId} from '../feautures/user/authSlice';
 import MyAppText from '../utils/text/MyAppText';
 import Wrapper from '../utils/wrapper/Wrapper';
 
-const SignedInFavoritesScreen = () => {
+const SignedInFavoritesScreen = ({navigation}: any) => {
   const favoriteProducts = useSelector(selectFavoriteProducts);
   const favoritesStatus = useSelector(selectFavoriteProductsStatus);
   const favoritesError = useSelector(selectFavoriteProductsError);
   const dispatch = useDispatch();
 
+  const fetchFavorites = () => {
+    dispatch(fetchFavoriteProducts());
+  };
+
   useEffect(() => {
     if (favoritesStatus === 'idle') {
-      dispatch(fetchFavoriteProducts());
+      fetchFavoriteProducts();
     }
   }, [dispatch, favoriteProducts]);
 
@@ -35,7 +40,11 @@ const SignedInFavoritesScreen = () => {
 
   return (
     <Wrapper>
-      <FavoriteProductsGallery />
+      <FavoriteProductsGallery
+        products={favoriteProducts}
+        onRefresh={fetchFavorites}
+        status={favoritesStatus}
+      />
     </Wrapper>
   );
 };
