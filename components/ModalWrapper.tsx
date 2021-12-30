@@ -31,7 +31,7 @@ const ModalWrapper = ({isVisible, children, onPress, textInp}: Props) => {
       }}>
       <TouchableWithoutFeedback onPress={onPress}>
         <KeyboardAvoidingView
-          behavior="padding"
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{
             ...styles.modalOverlay,
             backgroundColor: colors.background,
