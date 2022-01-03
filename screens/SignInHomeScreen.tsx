@@ -51,8 +51,16 @@ const SignInHomeScreen = () => {
       <View style={{flex: 1, padding: 15}}>
         <ScrollView>
           <StyleHeader />
-          <Gallery title="Similar to items you viewed" products={products} />
-          <Gallery title="Our picks for you" products={products} />
+          <Gallery
+            title="Similar to items in"
+            products={products}
+            category="Handmade"
+          />
+          <Gallery
+            title="Our picks for you in"
+            products={products}
+            category="Furniture"
+          />
         </ScrollView>
       </View>
     </Wrapper>

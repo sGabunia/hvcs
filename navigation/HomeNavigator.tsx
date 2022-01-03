@@ -7,7 +7,7 @@ import CategoriesScreen from '../screens/CategoriesScreen';
 export type HomeParamList = {
   Products: undefined;
   'Product Details': {id: string};
-  Categories: undefined;
+  Categories: {category: 'Handmade' | 'Furniture'};
 };
 
 const Stack = createNativeStackNavigator<HomeParamList>();

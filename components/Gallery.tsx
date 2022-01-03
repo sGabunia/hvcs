@@ -18,20 +18,21 @@ type CategoriesScreenNavigationProp = NativeStackNavigationProp<
 interface Props {
   title?: string;
   products: Product[];
+  category: 'Handmade' | 'Furniture';
   onRefresh?: () => void;
 }
 
-const Gallery = ({title, products}: Props) => {
+const Gallery = ({title, products, category}: Props) => {
   const navigation = useNavigation<CategoriesScreenNavigationProp>();
 
   const navigateToCategoriesGallery = () => {
-    navigation.navigate('Categories');
+    navigation.navigate('Categories', {category});
   };
   return (
     <View style={styles.wrapper}>
       {title && (
         <Pressable onPress={navigateToCategoriesGallery}>
-          <MyAppText style={styles.title}>{title}</MyAppText>
+          <MyAppText style={styles.title}>{`${title} ${category}`}</MyAppText>
         </Pressable>
       )}
       <View
@@ -41,9 +42,12 @@ const Gallery = ({title, products}: Props) => {
           alignItems: 'center',
           justifyContent: 'space-between',
         }}>
-        {products.slice(0, 6).map((product: Product, index: number) => {
-          return <GalleryItem product={product} key={index} />;
-        })}
+        {products
+          .filter(product => product.category === category)
+          .slice(-6)
+          .map((product: Product, index: number) => {
+            return <GalleryItem product={product} key={index} />;
+          })}
       </View>
     </View>
   );
@@ -57,5 +61,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
+    fontWeight: '700',
   },
 });

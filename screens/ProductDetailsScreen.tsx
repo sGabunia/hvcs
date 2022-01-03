@@ -1,8 +1,15 @@
-import React from 'react';
-import {ImageBackground, ScrollView, StyleSheet, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  ActivityIndicator,
+} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {HomeParamList} from '../navigation/HomeNavigator';
@@ -14,14 +21,40 @@ import MyAppText from '../utils/text/MyAppText';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 
 import CustomMainButton from '../components/CustomMainButton';
+import {
+  fetchProductDetails,
+  resetProductDetails,
+  selectProductDetails,
+} from '../feautures/productDetails/productDetailsSlice';
 
 type Props = NativeStackScreenProps<HomeParamList, 'Product Details'>;
 
-const ProductDetailsScreen = ({route}: Props) => {
+const ProductDetailsScreen = ({route, navigation}: Props) => {
   const {id} = route.params;
-  const product = useSelector(selectSingleProduct(id));
+  const dispatch = useDispatch();
+  const {product, status, error} = useSelector(selectProductDetails);
 
   const {colors} = useTheme();
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchProductDetails(id));
+    }
+  }, [dispatch, id, product]);
+
+  useEffect(() => {
+    navigation.addListener('blur', () => {
+      dispatch(resetProductDetails());
+    });
+  }, [id]);
+
+  if (status === 'pending') {
+    return <ActivityIndicator size={24} />;
+  }
+
+  if (status === 'failed') {
+    return <MyAppText>{error}</MyAppText>;
+  }
 
   return (
     <Wrapper>
@@ -29,14 +62,14 @@ const ProductDetailsScreen = ({route}: Props) => {
         <View>
           <ImageBackground
             source={{
-              uri: `data:image/jpeg;base64,${product?.imageId.primaryImage}`,
+              uri: `data:image/jpeg;base64,${product?.imageId?.primaryImage}`,
             }}
             style={styles.bgImage}
           />
         </View>
         <View style={styles.info}>
           <View>
-            <MyAppText style={styles.bold}>MuddyHeart</MyAppText>
+            <MyAppText style={styles.bold}>{product.username}</MyAppText>
             <View>
               <MyAppText>
                 7868 sales | <IonIcons name="star" />{' '}
